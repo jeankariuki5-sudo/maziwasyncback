@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-from core.models import MilkCollection
+from core.models import MilkCollection, PorterProfile
 
 # porter serializer for milk collection
 class MilkCollectionSerializer(serializers.ModelSerializer):
@@ -32,3 +31,4 @@ class RecentCollectionSerializer(serializers.ModelSerializer):
         fields = ['id', 'farmer_name', 'litres', 'session', 'collection_date', 'total_amount']
     def get_farmer_name(self, obj)  :
         return f"{obj.farmer.fisrt_name} {obj.farmer.last_name}"
+    

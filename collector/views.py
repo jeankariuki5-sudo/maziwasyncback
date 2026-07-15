@@ -8,7 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from collector.serializer import MilkCollectionSerializer, RecentCollectionSerializer
-from core.models import FarmerProfile, MilkCollection, PorterProfile
+from cooperative.serializers import NoticeSerializer
+from core.models import FarmerProfile, MilkCollection, Notice, PorterProfile
 from rest_framework import generics
 
 
@@ -113,3 +114,16 @@ class MyCollections(generics.ListAPIView):
             .order_by('created_at')
         )
         return collections
+    
+
+class PorterNoticeView(generics.ListAPIView):
+    serializer_class = NoticeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        notices = (
+            Notice.objects
+            .filter(target__in = ['ALL', 'PORTERS'])
+            .order_by('-created_at')
+        )
+        return notices

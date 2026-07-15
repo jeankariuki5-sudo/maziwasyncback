@@ -7,4 +7,6 @@ urlpatterns = [
     path('dashboard/', views.PorterDashboard),
     path('milk-collections/add/',views.AddMilkCollection),
     path('collections/my/', MyCollections.as_view()),
+    path('notice/', views.PorterNoticeView.as_view()),
+
 ]
