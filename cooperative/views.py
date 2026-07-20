@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework import viewsets
 from django.utils import timezone
 from rest_framework.views import APIView
@@ -11,6 +11,7 @@ from rest_framework.response import Response
 
 from collector.serializer import MilkCollectionSerializer
 from cooperative.serializers import FarmerSerializer, NoticeSerializer, PorterSerializer
+from cooperative.services import MpesaPayment
 from core.models import FarmerProfile, Feedback, MilkCollection, Notice, Payment, PorterProfile
 # Create your views here.
 # Admin /cooperative dashboard
@@ -196,3 +197,74 @@ def FarmersWithBalance(request):
                 "balance" : balance
         })
     return Response(data)
+
+
+# Initiate the disbursment to the farmer
+@api_view(["POST"])
+@permission_classes([IsAdminUser])
+def PayFarmer(request):
+    farmer_id = request.data.get("farmer_id")
+    amount = request.data.get("amount")
+
+    farmer = FarmerProfile.objects.get(id = farmer_id)
+
+    earned = MilkCollection.objects.filter(farmer = farmer).aggregate(
+        total = Sum('total_amount')
+    )['total'] or 0
+
+    paid = Payment.objects.filter(farmer = farmer).aggregate(
+        total = Sum('amount')
+    )['total'] or 0
+
+    balance = earned - paid
+
+    # Preventing paying a farmer who has no pending balance
+    if balance <= 0:
+        return Response({"message" : "No pending Payment"})
+    
+    # Creating object from MpesaPayment class in services.py
+    payment = MpesaPayment()
+    result = payment.pay_farmer(farmer.phone_number, amount)
+
+    # Create the Payment Record
+    Payment.objects.create(
+        farmer = farmer,
+        amount = amount,
+        payment_method = "MPESA",
+        originator_conversation_id = result['OriginatorConversationID'],
+        transaction_ref = result['ConversationID'],
+        payment_date = timezone.now()
+    )
+
+    return Response ({
+        "farmer" : f"{farmer.first_name}  {farmer.last_name}",
+        "prev_balance" : balance,
+        "mpesa_response" : result
+    })
+
+# Asynchronous call back processing webhok
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def MpesaCallback(request):
+    print("==============call back==================")
+
+    data = request.data
+
+    # Print the response fron safaricom to see it in the terminal
+    print("Data", data)
+    result = data["Result"]
+
+    originator_conversation_id = result["OriginatorConversationID"]
+
+    # retrieve the matching payment record with the originator convo id
+    payment = Payment.objects.get(originator_conversation_id = originator_conversation_id)
+
+    # Check if the transaction was successfull
+    if result["ResultCode"]==0:
+        payment.status="COMPLETED"
+        payment.transaction_ref=result['TransactionID']
+    else:
+        payment.status="FAILED"
+
+    payment.save()
+    return Response({"received" : True})

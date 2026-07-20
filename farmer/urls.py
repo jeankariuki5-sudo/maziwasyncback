@@ -9,6 +9,7 @@ urlpatterns = [
     path('collections/', views.FarmerCollection.as_view()),
     path('dashboard/', views.FarmerDashboard.as_view()),
     path('notice/', views.FarmerNoticeView.as_view()),
+    path('predict/', views.PredictDisease),
 
     path('', include(router.urls)),
 ]

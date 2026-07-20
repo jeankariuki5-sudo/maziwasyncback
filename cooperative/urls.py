@@ -11,4 +11,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('dashboard/', views.AdminDashboardViewset.as_view()),
     path('farmer_balance/', views.FarmersWithBalance),
+    path('pay_farmer/', views.PayFarmer),
+    path('callback', views.MpesaCallback),
+    path('', include(router.urls)),
 ]
