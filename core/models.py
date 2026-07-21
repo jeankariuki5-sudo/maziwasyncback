@@ -38,7 +38,7 @@ class FarmerProfile(BaseModel):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
-    gender = models.CharField(max_length=10, choices=(('    MALE', 'Male'), ('FEMALE', 'Female')), null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=(('MALE', 'Male'), ('FEMALE', 'Female')), null=True, blank=True)
 
     # contact info
     phone_number = models.CharField(max_length=15, unique=True)
