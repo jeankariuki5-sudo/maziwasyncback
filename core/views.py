@@ -11,70 +11,54 @@ from core.models import FarmerProfile, PorterProfile, User
 
 
 # Create your views here.
+
+
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
-@transaction.atomic
 def Register(request):
-    # print("register function")
-    username = request.data.get("username")
-    email = request.data.get("email")
-    password = request.data.get("password")
-    role = request.data.get("role")
-    phone_number = request.data.get("phone_number")
 
-    # print(username, email, password, role, phone_number)
+    role = request.data.get("role", "").strip().lower()
 
-    # Check emptys
-    if not username or not email or not password:
-        return Response({"error": "Email, Username and Password are required"}, status=400)
-    
-    # Check if user already exists
-    if User.objects.filter(username=username).exists():
-        return Response({"error": "Username already taken"}, status=400)
-    if User.objects.filter(email=email).exists():
-        return Response({"error": "Email already registered"}, status=400)
-    
     try:
-        # user account creation
-        user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-            role=role,
-            phone_number=phone_number,
-        )
+        with transaction.atomic():
 
-        if role == 'farmer':
-            FarmerProfile.objects.create(
-                user=user,
-                phone_number=phone_number,
-                first_name = request.data.get("first_name"),
-                last_name = request.data.get("last_name"),
-                national_id = request.data.get("national_id"),
-                farm_name = request.data.get("farm_name")
+            user = User.objects.create_user(
+                username=request.data["username"],
+                email=request.data["email"],
+                password=request.data["password"],
+                role=role,
+                phone_number=request.data.get("phone_number"),
             )
-        elif role == 'porter':
-            PorterProfile.objects.create(
-                user=user,
-                first_name = request.data.get("first_name"),
-                last_name = request.data.get("last_name"),
-                national_id = request.data.get("national_id"),
-                phone_number = request.data.get("phone_number"),
-                employee_id = request.data.get("employee_id"),
-                route_name = request.data.get("route_name")
-            )
+
+            if role == "farmer":
+                FarmerProfile.objects.create(
+                    user=user,
+                    first_name=request.data.get("first_name"),
+                    last_name=request.data.get("last_name"),
+                    national_id=request.data.get("national_id"),
+                    phone_number=request.data.get("phone_number"),
+                    farm_name=request.data.get("farm_name"),
+                )
+
+            elif role == "porter":
+                PorterProfile.objects.create(
+                    user=user,
+                    first_name=request.data.get("first_name"),
+                    last_name=request.data.get("last_name"),
+                    national_id=request.data.get("national_id"),
+                    phone_number=request.data.get("phone_number"),
+                    employee_id=request.data.get("employee_id"),
+                    route_name=request.data.get("route_name"),
+                )
+
         return Response({
-            "used_id": user.id,
+            "user_id": user.id,
             "username": user.username,
             "role": user.role,
-            "message": f"{role.capitalize()} Registered successfully"
         })
-    
-    # error caught from the db
-    except IntegrityError as e:
-        return Response({"error": "Integrity Error" + str(e)})
+
     except Exception as e:
-        return Response({"error": str(e)})
+        return Response({"error": str(e)}, status=400)
     
 
 # login

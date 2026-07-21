@@ -3,7 +3,8 @@ django-cors-headers
 djangorestframework-simplejwt
 mysqlclient
 drf-spectacular
-pillorequests
+pillow
+requests
 groq
 python-dotenv
 joblib
