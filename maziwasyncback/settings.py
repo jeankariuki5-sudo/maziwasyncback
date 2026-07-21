@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!_#@fp1e7!am1d0e^$e6eujpo-(s5axo9q83luf%ehj4vv&ayl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://kariukijean.alwaysdata.net/', '127.0.0.1', 'baked-subwoofer-reprint.ngrok-free.dev']
+ALLOWED_HOSTS = ['kariukijean.alwaysdata.net/', '127.0.0.1', 'baked-subwoofer-reprint.ngrok-free.dev']
 
 AUTH_USER_MODEL = 'core.User'
 
