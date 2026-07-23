@@ -29,6 +29,11 @@ ALLOWED_HOSTS = ['kariukijean.alwaysdata.net', '127.0.0.1', 'baked-subwoofer-rep
 
 AUTH_USER_MODEL = 'core.User'
 
+ALLOWED_CORS_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
+]
+
 
 # Application definition
 
