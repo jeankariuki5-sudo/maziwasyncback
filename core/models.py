@@ -95,7 +95,7 @@ class MilkCollection(BaseModel):
     # Daily milk collection records
     SESSIONS = (
         ('MORNING', 'Morning'),
-        ('EVINING', 'Evening'),
+        ('EVENING', 'Evening'),
     )
 
     farmer = models.ForeignKey(FarmerProfile, on_delete=models.CASCADE, related_name='collections')
