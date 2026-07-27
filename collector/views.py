@@ -17,7 +17,7 @@ from rest_framework import generics
 # =======================================
 # Porters dashboard
 # =======================================
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def PorterDashboard(request):
     # get the logged in porter
