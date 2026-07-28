@@ -15,6 +15,7 @@ class MilkCollectionSerializer(serializers.ModelSerializer):
             'national_id',
             'farmer_name',
             'litres',
+            'price_per_litre',
             'session',
             'total_amount',
             'collection_date'
