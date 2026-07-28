@@ -30,5 +30,5 @@ class RecentCollectionSerializer(serializers.ModelSerializer):
         model = MilkCollection
         fields = ['id', 'farmer_name', 'litres', 'session', 'collection_date', 'total_amount']
     def get_farmer_name(self, obj)  :
-        return f"{obj.farmer.fisrt_name} {obj.farmer.last_name}"
+        return f"{obj.farmer.first_name} {obj.farmer.last_name}"
     
