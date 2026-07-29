@@ -49,6 +49,7 @@ def PorterDashboard(request):
 
     # serialize the multiple milk collection record since last collection is a queryset - multiple objects
     last_collection_list = RecentCollectionSerializer(
+        last_collections,
         many = True #DRF serialize each collection individually - without it we treat it as a single object 
     ).data #returns the serialized JSON-ready representation of the query
     response_data = {
@@ -59,7 +60,7 @@ def PorterDashboard(request):
         'total_amount_today' : total_amount_today,
         'total_literes_week' : total_literes_week,
         'total_literes_month': total_literes_month,
-        'past_collections' : last_collections,
+        'past_collections' : last_collection_list,
         'porter_name': f'{porter.first_name} {porter.last_name}',
         'route_name' : porter.route_name,
         'employee_id' : porter.employee_id
