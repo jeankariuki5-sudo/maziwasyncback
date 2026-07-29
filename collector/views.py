@@ -45,7 +45,7 @@ def PorterDashboard(request):
     total_literes_month = monthly_collections.aggregate(total = Sum('litres'))["total"] or 0
 
     # current 5 collections
-    last_collections = MilkCollection.objects.filter(porter = porter).order_by("created_at")[:5]
+    last_collections = MilkCollection.objects.filter(porter = porter).order_by("-created_at")[:5]
 
     # serialize the multiple milk collection record since last collection is a queryset - multiple objects
     last_collection_list = RecentCollectionSerializer(
