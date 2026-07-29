@@ -59,7 +59,7 @@ def PorterDashboard(request):
         'total_amount_today' : total_amount_today,
         'total_literes_week' : total_literes_week,
         'total_literes_month': total_literes_month,
-        'kast_collections' : last_collection_list,
+        'past_collections' : last_collection_list,
         'porter_name': f'{porter.first_name} {porter.last_name}',
         'route_name' : porter.route_name,
         'employee_id' : porter.employee_id
