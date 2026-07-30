@@ -35,7 +35,6 @@ class FarmerDashboard(APIView):
         monthly_earnings = collection.filter(collection_date__month = timezone.now().month).aggregate(total = Sum('total_amount'))['total'] or 0
 
         return Response({
-            "farmer_name" : farmer.farmer_name,
             "total_collections" : total_collections,
             "total_litres" : total_litres,
             "total_amount" : total_amount,
