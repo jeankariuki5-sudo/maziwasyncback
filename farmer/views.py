@@ -111,7 +111,7 @@ def PredictDisease(request):
     animal = request.data.get("Animal")
     age = request.data.get("Age")
     temp = request.data.get("Temperature")
-    description = request.data.get("Dscription")
+    description = request.data.get("Description")
 
     # Create our AI object from the CattleAIService
     ai_service = CattleAIService()
