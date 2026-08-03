@@ -105,15 +105,37 @@ class FarmerNoticeView(generics.ListAPIView):
     
 
 # Cattel Ai Function
+from rest_framework.response import Response
+import traceback
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def PredictDisease(request):
-    animal = request.data.get("Animal")
-    age = request.data.get("Age")
-    temp = request.data.get("Temperature")
-    description = request.data.get("Description")
 
-    # Create our AI object from the CattleAIService
-    ai_service = CattleAIService()
-    result = ai_service.predict(animal_type = animal, age = age, temp = temp, description = description)
-    return Response(result)
+    try:
+        animal = request.data.get("Animal")
+        age = request.data.get("Age")
+        temp = request.data.get("Temperature")
+        description = request.data.get("Description")
+
+        print("REQUEST DATA:", request.data)
+
+        ai_service = CattleAIService()
+
+        result = ai_service.predict(
+            animal_type=animal,
+            age=age,
+            temp=temp,
+            description=description
+        )
+
+        return Response(result)
+
+    except Exception as e:
+        print("ERROR:", e)
+        traceback.print_exc()
+
+        return Response(
+            {"error": str(e)},
+            status=500
+        )
