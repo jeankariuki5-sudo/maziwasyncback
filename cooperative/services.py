@@ -39,7 +39,7 @@ class MpesaPayment:
             "SecurityCredential": self.security_credential,
             "CommandID": "BusinessPayToBulk",
             "Amount": amount,
-            "PartyA": "600989",  # Cooperative Shortcode
+            "PartyA": "600977",  # Cooperative Shortcode
             "PartyB": "600000",
             "SenderIdentifierType": "4",
             "RecieverIdentifierType": "4",
