@@ -13,7 +13,7 @@ class MpesaPayment:
 
         # Daraja B2C credentials
         self.initiator = "testapi"
-        self.security_credential = "oQZ1PBWzZOhfHAxDsWS5ezea4pD2ENa2tGuSNz8UZxZuFF1LBBDhqChGwkBTa1kUYArw0y5t/r532kVPTbocNp9LLTYW 5dQsP/2EM4nBUzmnZaJxOPtjzMZ/oWLuo1dRBOLgluNZ/hiGNGAFHzLC12g3Ya/5S0bcgjPT4rcTyltdWASXV+IRVVIRbIHJBm i0u8p0crtcoY1bWAvcLIWkp0FcVY2DXcLqDQTksuSZ2APBy8a+7s32shQbooR9xClqqko51Ng80fFCcyjXfzggX/nz1SDJwe1P FANo+33eFG+SAyaE409P31pw2Q1LKRUyF9hseGTcauGTWHZTFR8UBQ=="
+        self.security_credential = "oQZ1PBWzZOhfHAxDsWS5ezea4pD2ENa2tGuSNz8UZxZuFF1LBBDhqChGwkBTa1kUYArw0y5t/r532kVPTbocNp9LLTyW5dQsP/2EM4nBUzmnZaJxOPtjzMZ/oWLuo1dRBOLgIuNZ/hiGNGAFHzLCl2g3Ya/5S0bcgjPT4rcTyltdWAsXV+IRVVlRbiHJBmi0u8p0crtcoY1bWAvcLIWkp0FcVY2DXcLqDQTksuSZ2APBy8a+7s32shQbooR9xCIqqko51Ng80fFCcyjXfzggX/nz1SDJwe1PFANo+33eFG+SAyaE409P31pw2Q1LKRUyF9hseGTcauGTWHZTFR8UBQ=="
         # Daraja endpoints
         self.token_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
         self.payment_url = "https://sandbox.safaricom.co.ke/mpesa/b2b/v1/paymentrequest"
